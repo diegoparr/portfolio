@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Diego Parrado — 3D Portfolio</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body><canvas id="c"></canvas>
+    <header>
+      <div class="brand">
+        <b>Diego Parrado</b><span>Backend, Cloud and AI systems</span>
+      </div>
+      <button id="t2d" class="pill">2D Quick View</button>
+    </header>
+    <button id="reset" class="pill">⟲ Reset Camera</button>
+    <div
+      id="poses"
+      style="
+        position: fixed;
+        right: 18px;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+        display: flex;
+        gap: 6px;
+        z-index: 30;
+      "
+    >
+      <button class="pill" onclick="setPose('Typing')">Typing</button>
+      <button class="pill" onclick="setPose('Sitting')">Sitting</button>
+      <button class="pill" onclick="setPose('Reading')">Reading</button>
+      <button class="pill" onclick="setPose('Guitar')">Guitar</button>
+    </div>
+    <div id="hint">Left-drag to orbit, right-drag to pan, scroll to zoom</div>
+    <div id="tip"></div>
+    <aside id="panel">
+      <button id="close" class="pill">Close</button>
+      <div id="pb"></div>
+    </aside>
+    <main id="cv">
+      <div class="wrap" id="cvb"></div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

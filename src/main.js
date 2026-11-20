@@ -1,393 +1,8 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Diego Parrado — 3D Portfolio</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #070914;
-        --panel: rgba(12, 14, 32, 0.92);
-        --pill: rgba(20, 22, 50, 0.72);
-        --text: #e8eaff;
-        --mut: #9aa0c8;
-        --acc: #ffb067;
-        --acc2: #8b7cff;
-        --line: rgba(139, 124, 255, 0.28);
-        --card: rgba(255, 255, 255, 0.045);
-        --chip: rgba(139, 124, 255, 0.14);
-        color-scheme: dark;
-      }
-
-      @media (prefers-color-scheme: light) {
-        body.v2d {
-          --bg: #f5f6fb;
-          --panel: #fff;
-          --pill: rgba(255, 255, 255, 0.85);
-          --text: #161a33;
-          --mut: #586086;
-          --acc: #a8480a;
-          --acc2: #5b4bd6;
-          --line: #dcdfee;
-          --card: #fff;
-          --chip: #eef0fb;
-          color-scheme: light;
-        }
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Bricolage Grotesque", system-ui, sans-serif;
-        overflow: hidden;
-      }
-
-      #c {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        display: block;
-        touch-action: none;
-        cursor: grab;
-      }
-
-      header {
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 0;
-        z-index: 30;
-        pointer-events: none;
-      }
-
-      header > * {
-        pointer-events: auto;
-      }
-
-      .brand b {
-        display: block;
-        font-size: 17px;
-      }
-
-      .brand span {
-        font-size: 13px;
-        color: var(--mut);
-      }
-
-      .pill {
-        font:
-          500 13px "Bricolage Grotesque",
-          system-ui,
-          sans-serif;
-        color: var(--text);
-        background: var(--pill);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 8px 15px;
-        cursor: pointer;
-        backdrop-filter: blur(8px);
-      }
-
-      .pill:hover,
-      .pill:focus-visible {
-        border-color: var(--acc);
-        outline: none;
-      }
-
-      #reset {
-        position: fixed;
-        left: 18px;
-        bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
-        z-index: 30;
-      }
-
-      #hint {
-        position: fixed;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
-        font-size: 13px;
-        color: var(--mut);
-        pointer-events: none;
-        white-space: nowrap;
-      }
-
-      #tip {
-        position: fixed;
-        left: 0;
-        top: 0;
-        pointer-events: none;
-        z-index: 40;
-        opacity: 0;
-        transition: opacity 0.15s;
-        background: var(--panel);
-        border: 1px solid var(--acc);
-        border-radius: 8px;
-        padding: 6px 11px;
-        font-size: 13px;
-        white-space: nowrap;
-      }
-
-      #panel {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: min(420px, 100%);
-        background: var(--panel);
-        backdrop-filter: blur(14px);
-        border-left: 1px solid var(--line);
-        transform: translateX(105%);
-        transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-        padding: calc(env(safe-area-inset-top, 0px) + 70px) 26px 28px;
-        overflow: auto;
-        z-index: 20;
-      }
-
-      #panel.open {
-        transform: none;
-      }
-
-      #close {
-        position: absolute;
-        top: calc(env(safe-area-inset-top, 0px) + 14px);
-        left: 22px;
-      }
-
-      h1,
-      h2 {
-        margin: 0 0 6px;
-        line-height: 1.12;
-        font-weight: 700;
-      }
-
-      h2 {
-        font-size: 27px;
-      }
-
-      h1 {
-        font-size: 38px;
-      }
-
-      .sub {
-        color: var(--mut);
-        margin: 0 0 14px;
-        font-size: 15px;
-        line-height: 1.45;
-      }
-
-      h3 {
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--acc);
-        margin: 24px 0 10px;
-      }
-
-      .card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 12px 14px;
-        margin-bottom: 10px;
-      }
-
-      .card h4 {
-        margin: 0;
-        font-size: 15px;
-      }
-
-      .card p {
-        margin: 6px 0 0;
-        color: var(--mut);
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .chip {
-        font-size: 13px;
-        background: var(--chip);
-        border: 1px solid var(--line);
-        border-radius: 7px;
-        padding: 5px 10px;
-      }
-
-      .links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 22px 0 4px;
-      }
-
-      .btn {
-        font:
-          500 14px "Bricolage Grotesque",
-          system-ui,
-          sans-serif;
-        color: var(--text);
-        text-decoration: none;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        padding: 9px 15px;
-      }
-
-      .btn:hover,
-      .btn:focus-visible {
-        border-color: var(--acc);
-        outline: none;
-      }
-
-      .btn.pri {
-        background: var(--acc);
-        border-color: var(--acc);
-        color: #10101c;
-      }
-
-      .flow {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        align-items: center;
-        font-size: 13px;
-      }
-
-      .flow span {
-        background: var(--chip);
-        border: 1px solid var(--line);
-        border-radius: 7px;
-        padding: 5px 9px;
-      }
-
-      .flow i {
-        color: var(--acc);
-        font-style: normal;
-      }
-
-      #cv {
-        display: none;
-        position: fixed;
-        inset: 0;
-        overflow: auto;
-        z-index: 15;
-        background: var(--bg);
-        color: var(--text);
-        padding: calc(env(safe-area-inset-top, 0px) + 76px) 20px 48px;
-      }
-
-      .wrap {
-        max-width: 740px;
-        margin: 0 auto;
-      }
-
-      body.v2d #cv {
-        display: block;
-      }
-
-      body.v2d #reset,
-      body.v2d #hint,
-      body.v2d #panel,
-      body.v2d #tip {
-        display: none;
-      }
-
-      @media (max-width: 800px) {
-        #hint {
-          display: none;
-        }
-
-        #panel {
-          top: auto;
-          height: 62vh;
-          width: 100%;
-          border-left: 0;
-          border-top: 1px solid var(--line);
-          border-radius: 18px 18px 0 0;
-          transform: translateY(105%);
-          padding-top: 64px;
-        }
-
-        #panel.open {
-          transform: none;
-        }
-
-        .brand span {
-          display: none;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        #panel {
-          transition: none;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <canvas id="c"></canvas>
-    <header>
-      <div class="brand">
-        <b>Diego Parrado</b><span>Backend, Cloud and AI systems</span>
-      </div>
-      <button id="t2d" class="pill">2D Quick View</button>
-    </header>
-    <button id="reset" class="pill">⟲ Reset Camera</button>
-    <div
-      id="poses"
-      style="
-        position: fixed;
-        right: 18px;
-        bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
-        display: flex;
-        gap: 6px;
-        z-index: 30;
-      "
-    >
-      <button class="pill" onclick="setPose('Typing')">Typing</button>
-      <button class="pill" onclick="setPose('Sitting')">Sitting</button>
-      <button class="pill" onclick="setPose('Reading')">Reading</button>
-      <button class="pill" onclick="setPose('Guitar')">Guitar</button>
-    </div>
-    <div id="hint">Left-drag to orbit, right-drag to pan, scroll to zoom</div>
-    <div id="tip"></div>
-    <aside id="panel">
-      <button id="close" class="pill">Close</button>
-      <div id="pb"></div>
-    </aside>
-    <main id="cv">
-      <div class="wrap" id="cvb"></div>
-    </main>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
-    <script>
-      /* ============ CONTENT (edit here) ============ */
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+/* ============ CONTENT (edit here) ============ */
       const GH = "https://github.com/diegoparr",
         LI = "https://www.linkedin.com/in/TU-USUARIO",
         CV_FILE = "cv-diego-parrado.pdf";
@@ -437,7 +52,7 @@
         t: new THREE.Vector3(0, 2.2, 0),
       };
       camera.position.copy(HOME.p);
-      const controls = new THREE.OrbitControls(camera, canvas);
+      const controls = new OrbitControls(camera, canvas);
       Object.assign(controls, {
         enableDamping: true,
         dampingFactor: 0.07,
@@ -590,13 +205,13 @@
         console.log("Todos los modelos 3D y pósters listos");
       };
 
-      const dracoLoader = new THREE.DRACOLoader();
+      const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath(
         "https://www.gstatic.com/draco/versioned/decoders/1.5.6/",
       );
       dracoLoader.preload();
 
-      const gltfLoader = new THREE.GLTFLoader(manager);
+      const gltfLoader = new GLTFLoader(manager);
       gltfLoader.setDRACOLoader(dracoLoader);
 
       const texLoader = new THREE.TextureLoader(manager);
@@ -1010,7 +625,7 @@
         if (guitarModel) {
           if (name === "Guitar") {
             scene.add(guitarModel);
-            guitarModel.scale.setScalar(2.1);
+            guitarModel.scale.setScalar(2.65);
           } else {
             gt.add(guitarModel);
             guitarModel.scale.setScalar(2.4);
@@ -1319,6 +934,11 @@
       gltfLoader.load("./assets/guitarra_diego.glb", (gltf) => {
         const gModel = gltf.scene;
         guitarModel = gModel;
+
+        // Calculamos el centro real del modelo en escala 1 para poder posicionarlo sin que se desvíe por su pivote
+        const box = new THREE.Box3().setFromObject(gModel);
+        gModel.userData.centerOffset = box.getCenter(new THREE.Vector3());
+
         gModel.scale.setScalar(2.4);
         gModel.position.set(0.04, 1.25, -0.2);
         gModel.rotation.set(0, Math.PI / 2, Math.PI / 2 + 0.18);
@@ -1511,18 +1131,21 @@
         const dt = Math.min(clock.getDelta(), 0.05),
           t = clock.elapsedTime;
         if (mixer) mixer.update(dt);
-        if (guitarModel && guitarModel.parent === scene && av) {
-          // Subimos a Y = 1.98 y acercamos a Z = 0.28 para que quede abrazada entre ambos brazos
-          const offset = new THREE.Vector3(-0.05, 1.98, 0.28).applyAxisAngle(
-            new THREE.Vector3(0, 1, 0),
-            av.rotation.y
-          );
-          guitarModel.position.copy(av.position).add(offset);
-
-          // Giramos 180° respecto a antes (-Math.PI / 2) para que el mástil salga hacia su mano izquierda
-          // e inclinamos el mástil hacia arriba (-0.42 en Z) en ángulo clásico de tocar
+       if (guitarModel && guitarModel.parent === scene && av) {
           guitarModel.rotation.order = "YXZ";
-          guitarModel.rotation.set(0.18, av.rotation.y - Math.PI / 2, -0.42);
+          guitarModel.rotation.set(0.25, av.rotation.y, Math.PI / 2 - 1.02);
+
+          // Aumentamos Z de 0.48 a 0.56 para adelantar el mástil justo hasta los dedos de la mano izquierda
+          const targetPoint = new THREE.Vector3(0.22, 1.94, 0.56)
+            .applyAxisAngle(new THREE.Vector3(0, 1, 0), av.rotation.y)
+            .add(av.position);
+
+          const cOff = (guitarModel.userData.centerOffset || new THREE.Vector3())
+            .clone()
+            .multiplyScalar(guitarModel.scale.x)
+            .applyEuler(guitarModel.rotation);
+
+          guitarModel.position.copy(targetPoint).sub(cOff);
         }
         if (tw) {
           const a = 1 - Math.exp(-5 * dt);
@@ -1555,6 +1178,3 @@
 
         renderer.render(scene, camera);
       })();
-    </script>
-  </body>
-</html>
