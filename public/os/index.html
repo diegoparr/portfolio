@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440, height=540" />
+  <title>diego@arch — Hyprland</title>
+  <link rel="stylesheet" href="./os.css" />
+</head>
+<body>
+  <div id="desktop">
+    <!-- Waybar flotante -->
+    <header id="waybar">
+      <div class="wb-left">
+        <img class="wb-logo" src="./icons/arch.svg" alt="Arch Linux" width="16" height="16" />
+        <nav class="workspaces" id="workspaces" aria-label="workspaces">
+          <button class="ws active" data-ws="1">1</button>
+          <button class="ws" data-ws="2">2</button>
+        </nav>
+        <span class="wb-title" id="wb-title"></span>
+      </div>
+
+      <time class="wb-clock" id="clock">--</time>
+
+      <div class="wb-right">
+        <div class="lang" id="lang">
+          <button data-lang="es">ES</button>
+          <span class="lang-sep">|</span>
+          <button data-lang="en">EN</button>
+        </div>
+        <button class="wb-btn" id="wb-github" title="GitHub">
+          <img src="./icons/github.svg" alt="" width="14" height="14" />
+          <span>github</span>
+        </button>
+        <button class="wb-btn exit" id="wb-exit" title="Esc">
+          <span class="key">Esc</span>
+          <span id="exit-label">salir</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Iconos del escritorio -->
+    <nav id="desktop-icons" aria-label="escritorio">
+      <button class="d-icon" data-action="cv">
+        <span class="icon-box"><img src="./icons/cv.svg" alt="" width="26" height="26" /></span>
+        <span class="d-label" id="label-cv">cv.pdf</span>
+      </button>
+      <button class="d-icon" data-action="linkedin">
+        <span class="icon-box"><img src="./icons/linkedin.svg" alt="" width="26" height="26" /></span>
+        <span class="d-label" id="label-linkedin">linkedin</span>
+      </button>
+      <button class="d-icon" data-action="terminal">
+        <span class="icon-box"><img src="./icons/terminal.svg" alt="" width="26" height="26" /></span>
+        <span class="d-label" id="label-terminal">terminal</span>
+      </button>
+    </nav>
+
+    <!-- Área de tiling (las ventanas se crean en os.js) -->
+    <main id="tiling" aria-label="ventanas"></main>
+  </div>
+
+  <script type="module" src="../os.js"></script>
+</body>
+</html>

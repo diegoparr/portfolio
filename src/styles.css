@@ -159,6 +159,10 @@
         left: 22px;
       }
 
+      #dlang {
+        margin-top: 18px;
+      }
+
       h1,
       h2 {
         margin: 0 0 6px;
@@ -329,4 +333,8 @@
         #panel {
           transition: none;
         }
+      }
+      /* Bloquea clics en las capas internas de CSS3D por defecto */
+      div[style*="preserve-3d"] {
+        pointer-events: none !important;
       }
